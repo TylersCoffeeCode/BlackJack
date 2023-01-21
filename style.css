@@ -1,0 +1,23 @@
+body {
+    margin: 0 auto;
+}
+
+.title {
+    color: wheat;
+}
+
+.dealer {
+    width: 100vw;
+    height: 200px;
+    background-color: rgb(118, 118, 234);
+    
+}
+
+.player {
+    width: 200vw;
+    height: 200px;
+    background-color: rgb(73, 204, 138);
+    display: flex;
+    
+}
+
