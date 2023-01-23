@@ -22,10 +22,9 @@ class Dealer {
     constructor() {
         this.cash = 0
         this.winAmount = 0
-        this.dealerCards = []
+        this.dealerDeck = []
     }
     deal() {
-
     }
 
     createDeck() {
@@ -33,11 +32,13 @@ class Dealer {
         for(let i = 0; i < cardSuites.length; i++) { //for every suite add a card value
             for(let j = 0; j < cardValues.length; j++) {//make an array with suite and value 
                     let card = {Suits: cardSuites[i],Values: cardValues[j]}
-                    this.dealerCards.push(card)
-            
-
+                    this.dealerDeck.push(card)
             }
         }
+    }
+
+    shuffleDeck() {
+    this.dealerDeck.sort(() => Math.random() - 0.5) //math.random returns a random number compared to -.5 (i.e 50%) to place order
     
     }
 }
@@ -55,6 +56,8 @@ const cardDealer = new Dealer("Dealer")
 
 
 cardDealer.createDeck()
+
+cardDealer.shuffleDeck()
 
 // console.log(arr);
 
