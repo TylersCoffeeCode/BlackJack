@@ -4,6 +4,12 @@ body {
 
 .title {
     color: wheat;
+    text-align: center;
+    background-color: brown;
+}
+
+.title h1 {
+    margin: 0;
 }
 
 .dealer {
@@ -13,11 +19,38 @@ body {
     
 }
 
+.table {
+    width: 100vh;
+    height: 67vh;
+    background-color: rgb(8, 78, 42);
+}
+
+.upper {
+    height: 50%;
+}
+
+.lower {
+    height: 50%;
+}
+
 .player {
     width: 200vw;
     height: 200px;
-    background-color: rgb(73, 204, 138);
+    background-color: rgb(71, 17, 68);
     display: flex;
     
 }
 
+.dealBtn {
+    width: 200px;
+    height: 200px;
+}
+
+.stayBtn {
+    width: 200px;
+    height: 200px;
+}
+
+.gameOff {
+    display: none;
+}
