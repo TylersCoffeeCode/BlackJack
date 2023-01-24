@@ -15,7 +15,7 @@ body {
 .dealer {
     width: 100vw;
     height: 200px;
-    background-color: rgb(118, 118, 234);
+    background: linear-gradient(90deg, rgba(138,0,137,1) 27%, rgba(250,83,0,1) 53%, rgba(0,0,0,1) 100%);    display: flex;
 
 }
 
@@ -34,7 +34,6 @@ body {
     justify-content: center;
     height: 50%;
     width: 50%;
-    display: flex;
     float: left;
 
 }
@@ -77,7 +76,7 @@ body {
     width: 150px;
     height: 150px;
     border-radius: 1rem;
-    padding: 8rem 0 0;
+    padding: 122px 0 0;
     background: rgb(5, 18, 18);
     box-shadow: -15px 0 50px #000;
 
@@ -89,6 +88,12 @@ body {
 
 
     transition: transform 0.5s ease;
+}
+
+.playerCards {
+    display: flex;
+    justify-content: center;
+    float: left;
 }
 
 .card:hover {
@@ -106,7 +111,7 @@ body {
 .hidden {
     width: 150px;
     height: 150px;
-    background: rgb(117, 30, 85);
+    background: linear-gradient(270deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
     background-size: cover;
     padding: 8rem 0 0;
     border-radius: 15px;
