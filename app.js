@@ -2,8 +2,16 @@ const houseMoney = 0;
 const playerMoney = 0;
 const wager = 0;
 const dealButton = document.querySelector('.dealBtn')
+const stayButton = document.querySelector('.stayBtn')
+const dealerTable = document.querySelector('.card-list')
+const createCardDiv = document.createElement('div')
+createCardDiv.classList.add('card')
+const createCardNumberDiv = document.createElement('div')
+const hiddenDiv = document.createElement('div')
+hiddenDiv.classList.add('card')
+hiddenDiv.classList.add('hidden')
 let isPlaying = true
-let checkArr = 0
+let checkArr;
 let dealerCheckArr = 0
 
 
@@ -51,10 +59,12 @@ function checkDealerBust() {
             else if (cardDealer.hasAce > 0 && checkArr > 21) {
                 if (cardDealer.hasAce === 1 && checkArr > 32) {
                     isPlaying = false
+                    isDealing = false
                     dealerCheckArr -= 10
                     console.log(dealerCheckArr);
                 } else if (cardDealer.hasAce === 2 && checkArr > 41) {
                     isPlaying = false
+                    isDealing = false
                     dealerCheckArr -= 20
                     console.log(dealerCheckArr);
                 } else if (cardDealer.hasAce === 3 && checkArr > 51) {
@@ -79,9 +89,10 @@ class Player {
         this.cardHand = []
         this.cardScores = []
         this.hasAce = 0
+        this.compareAmt = 0
     }
     wager() {
-
+        
     }
 
     addToPlayerHand(deltCard) {
@@ -91,10 +102,13 @@ class Player {
     }
 
     stay() {
-        
-    }
-
+        hiddenDiv.classList.remove('hidden')
+        checkDealerBust()
+        checkBust()
+        console.log(player1.compareAmt);
+        }
 }
+
 
 class Dealer {
     constructor() {
@@ -104,6 +118,7 @@ class Dealer {
         this.hasAce = 0
         this.dealerHand = []
         this.dealerCardScores = []
+        this.compareDealerAmt = 0
     }
     createDeckArray() {
         const cardSuites = ["Diamonds", "Spades", "Hearts", "Clubs"]
@@ -129,6 +144,7 @@ class Dealer {
         const deltCard = this.dealerDeck.splice(randomizer, 1)
         player1.addToPlayerHand(deltCard)
         console.log(randomCard);
+        player1.compareAmt += deltCard[0].Worth
         if (deltCard[0].Values === 'Ace') {
             player1.hasAce++
         }
@@ -140,9 +156,15 @@ class Dealer {
         const deltCardForDealer = this.dealerDeck.splice(randomizerForDealer, 1)
         cardDealer.addToDealerHand(deltCardForDealer)
         console.log(randomCardForDealer);
+        this.compareDealerAmt += deltCardForDealer[0].Worth
         if (deltCardForDealer[0].Values === 'Ace') {
             this.hasAce++
         }
+
+
+        dealerTable.appendChild(createCardDiv)
+        createCardDiv.innerText = `${deltCardForDealer[0].Values} of ${deltCardForDealer[0].Suits}`
+
     }
 
     dealDealerHidden() {
@@ -151,9 +173,12 @@ class Dealer {
         const deltCardForDealer = this.dealerDeck.splice(randomizerForDealer, 1)
         cardDealer.addToDealerHand(deltCardForDealer)
         console.log(randomCardForDealer);
+        this.compareDealerAmt += deltCardForDealer[0].Worth
         if (deltCardForDealer[0].Values === 'Ace') {
             this.hasAce++
         }
+        dealerTable.appendChild(hiddenDiv)
+        hiddenDiv.innerText = `${deltCardForDealer[0].Values} of ${deltCardForDealer[0].Suits}`
     }
 
 
@@ -185,12 +210,16 @@ dealButton.addEventListener('click', () => {
     cardDealer.deal(player1)
     checkBust()
     checkDealerBust()
-    if (isPlaying === false) {
-        dealButton.classList.add('gameOff')
+        if (isPlaying === false) {
+            dealButton.classList.add('gameOff')
+        }
     }
+)
 
+stayButton.addEventListener('click', () => {
+    player1.stay()
+} )
 
-})
 
 
 
