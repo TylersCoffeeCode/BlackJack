@@ -304,6 +304,7 @@ dealButton.addEventListener('click', () => {
         dealButton.classList.add('gameOff')
         stayButton.classList.add('gameOff')
         hiddenDiv.classList.remove('hidden')
+        
         player1.endCompare()
     }
 }
