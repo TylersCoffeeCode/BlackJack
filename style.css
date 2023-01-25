@@ -50,6 +50,14 @@ body {
 
 }
 
+
+.dealer p {
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: 100px;
+}
+
 .table {
     width: 100%;
     height: 67vh;
@@ -86,14 +94,13 @@ body {
 
 }
 
-.dealBtn {
+.dealBtn, .stayBtn, .resetBtn {
     width: 200px;
     height: 200px;
 }
 
-.stayBtn {
-    width: 200px;
-    height: 200px;
+.announcer {
+    
 }
 
 .gameOff {

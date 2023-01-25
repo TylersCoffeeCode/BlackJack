@@ -1,8 +1,10 @@
+// Global
 const houseMoney = 0;
 const playerMoney = 0;
 const wager = 0;
 const dealButton = document.querySelector('.dealBtn')
 const stayButton = document.querySelector('.stayBtn')
+const resetButton = document.querySelector('.resetBtn')
 const dealerTable = document.querySelector('.card-list')
 const createCardDiv = document.createElement('div')
 const createCardNumberDiv = document.createElement('div')
@@ -11,19 +13,50 @@ const hiddenDiv = document.createElement('div')
 createCardDiv.classList.add('card')
 hiddenDiv.classList.add('card')
 hiddenDiv.classList.add('hidden')
+const cardSelecter = document.querySelector('.playerCards')
+const grabBanner = document.querySelector('.dealer p')
 let isPlaying = true
 let isDealing = true
 let isOver21 = false
 let checkArr = 0
 let dealerCheckArr = 0
 
+//Functions
+function reset() {
+    isOver21 = false
+    isPlaying = true
+    player1.cardHand = []
+    player1.cardScores = []
+    player1.hasAce = 0
+    player1.compareAmt = 0
+    cardDealer.compareDealerAmt = 0
+    cardDealer.dealerDeck = []
+    cardDealer.hasAce = 0
+    cardDealer.dealerHand = []
+    cardDealer.dealerCardScores = []
+    cardDealer.compareDealerAmt = 0
+    dealButton.classList.remove('gameOff')
+    stayButton.classList.remove('gameOff')
+    
+
+}
+
 function checkWinner() {
     if (isOver21 === true) {
         console.log('Dealer WON');
-    } else if (isOver21 === false && player1.compareAmt > cardDealer.compareDealerAmt) {
+        grabBanner.innerText = "Dealer Won"
+    } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
-    } else if (isOver21 === false && player1.compareAmt < cardDealer.compareDealerAmt) {
-        console.log('Dealer WIN');
+        grabBanner.innerText = "Player Won"
+    } else if (cardDealer.compareDealerAmt < 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
+        console.log('Dealer WIN by cards');
+        grabBanner.innerText = "Dealer Won"
+    } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
+        console.log('player wins by dealer busting');
+        grabBanner.innerText = "Player Won"
+    } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
+        console.log('its a draw');
+        grabBanner.innerText = "DRAW"
     }
 }
 
@@ -38,88 +71,10 @@ function checkBustV2() {
 
 function checkDealerBustV2() {
     if (cardDealer.compareDealerAmt > 21) {
-        isPlaying = false
+        isDealing = false
         console.log(cardDealer.compareDealerAmt);
     }
 }
-
-
-
-
-// function checkBust() {
-//     if (isPlaying = true) {
-//         let checkArr = 0
-//         for (let i = 0; i < player1.cardScores.length; i++) {
-//             checkArr += player1.cardScores[i]
-//             // console.log(checkArr);
-//             if (checkArr > 21) {
-//                 isPlaying = false
-//                 isOver21 = true
-//             }
-//         }
-//     }
-// }
-//             }
-//             else if (player1.hasAce > 0 && checkArr > 21) {
-//                 if (player1.hasAce === 1 && checkArr > 32) {
-//                     isPlaying = false
-//                     isOver21 = true
-//                     checkArr -= 10
-//                     console.log(checkArr);
-//                 } else if (player1.hasAce === 2 && checkArr > 41) {
-//                     isPlaying = false
-//                     isOver21 = true
-//                     checkArr -= 20
-//                     console.log(checkArr);
-//                 } else if (player1.hasAce === 3 && checkArr > 51) {
-//                     isPlaying = false
-//                     isOver21 = true
-//                     checkArr -= 30
-//                     console.log(checkArr);
-//                 } else if (player1.hasAce === 4 && checkArr > 61) {
-//                     isPlaying = false
-//                     isOver21 = true
-//                     checkArr -= 40
-//                     console.log(checkArr);
-//                 }
-//             }
-//         }
-//     }
-// }
-
-function checkDealerBust() {
-    if (isPlaying = true) {
-        let dealerCheckArr = 0
-        for (let i = 0; i < cardDealer.dealerCardScores.length; i++) {
-            dealerCheckArr += cardDealer.dealerCardScores[i]
-        }
-    }
-}
-//         // console.log(dealerCheckArr);
-//         if (dealerCheckArr > 21 && cardDealer.hasAce === 0) {
-//             isPlaying = false
-//         }
-//         else if (cardDealer.hasAce > 0 && checkArr > 21) {
-//             if (cardDealer.hasAce === 1 && checkArr > 32) {
-//                 isPlaying = false
-//                 dealerCheckArr -= 10
-//                 // console.log(dealerCheckArr);
-//             } else if (cardDealer.hasAce === 2 && checkArr > 41) {
-//                 isPlaying = false
-//                 dealerCheckArr -= 20
-//                 // console.log(dealerCheckArr);
-//             } else if (cardDealer.hasAce === 3 && checkArr > 51) {
-//                 isPlaying = false
-//                 dealerCheckArr -= 30
-//                 // console.log(dealerCheckArr);
-//             } else if (cardDealer.hasAce === 4 && checkArr > 61) {
-//                 isPlaying = false
-//                 dealerCheckArr -= 40
-//                 // console.log(dealerCheckArr);
-//             }
-//         }
-//     }
-// }
 
 class Player {
     constructor(name) {
@@ -139,16 +94,6 @@ class Player {
         this.cardHand.push(deltCard)
         this.cardScores.push(deltCard[0].Worth)
         // this.cardHand.pop(deltCard)
-    }
-
-    endCompare() {
-        if (isOver21 === true) {
-            console.log('Dealer WON');
-        } else if (isOver21 === false && player1.compareAmt > cardDealer.compareDealerAmt) {
-            console.log('Player WON');
-        } else if (isOver21 === false && player1.compareAmt < cardDealer.compareDealerAmt) {
-            console.log('Dealer WIN');
-        }
     }
 
 }
@@ -219,7 +164,6 @@ class Dealer {
         const randomCardForDealer = this.dealerDeck[randomizerForDealer]
         const deltCardForDealer = this.dealerDeck.splice(randomizerForDealer, 1)
         cardDealer.addToDealerHand(deltCardForDealer)
-        // console.log(randomCardForDealer);
         this.compareDealerAmt += deltCardForDealer[0].Worth
         if (deltCardForDealer[0].Worth == 11) {
             console.log('HELLO');
@@ -291,7 +235,7 @@ function startGame() {
     cardDealer.dealDealerHidden()
     cardDealer.deal(player1)
     checkBustV2()
-    checkDealerBust()
+    checkDealerBustV2()
 }
 
 startGame()
@@ -304,8 +248,8 @@ dealButton.addEventListener('click', () => {
         dealButton.classList.add('gameOff')
         stayButton.classList.add('gameOff')
         hiddenDiv.classList.remove('hidden')
-        
         player1.endCompare()
+        checkWinner()
     }
 }
 )
@@ -318,7 +262,16 @@ stayButton.addEventListener('click', () => {
     while (cardDealer.compareDealerAmt < 17) {
         cardDealer.dealDealer()
     }
+    checkDealerBustV2
+    checkWinner()
 })
+
+
+resetButton.addEventListener('click', () => {
+    reset()
+})
+
+
 
 
 
