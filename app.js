@@ -13,7 +13,8 @@ const hiddenDiv = document.createElement('div')
 createCardDiv.classList.add('card')
 hiddenDiv.classList.add('card')
 hiddenDiv.classList.add('hidden')
-const cardSelecter = document.querySelector('.playerCards')
+const cardSelecterPlayer = document.querySelector('.playerCards')
+const cardSelecterDealer = document.querySelector('.card-list')
 const grabBanner = document.querySelector('.dealer p')
 let isPlaying = true
 let isDealing = true
@@ -23,21 +24,38 @@ let dealerCheckArr = 0
 
 //Functions
 function reset() {
+    removePlayerElements()
+    removeDealerElements()
     isOver21 = false
     isPlaying = true
     player1.cardHand = []
-    player1.cardScores = []
+    // player1.cardScores = []
     player1.hasAce = 0
     player1.compareAmt = 0
     cardDealer.compareDealerAmt = 0
     cardDealer.dealerDeck = []
     cardDealer.hasAce = 0
     cardDealer.dealerHand = []
-    cardDealer.dealerCardScores = []
+    // cardDealer.dealerCardScores = []
     cardDealer.compareDealerAmt = 0
     dealButton.classList.remove('gameOff')
     stayButton.classList.remove('gameOff')
-    
+    startGame()
+
+}
+
+function removePlayerElements() {
+    for(let i = 0; i < cardSelecterPlayer.childNodes.length; i++ ) {
+        cardSelecterPlayer.remove()   
+
+    }
+
+}
+
+function removeDealerElements() {
+    for (let i = 0; i < cardSelecterDealer.childNodes.length; i++) {
+        cardSelecterDealer.remove()
+    }
 
 }
 
@@ -48,7 +66,7 @@ function checkWinner() {
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
         grabBanner.innerText = "Player Won"
-    } else if (cardDealer.compareDealerAmt < 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
+    } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
         console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
@@ -82,7 +100,7 @@ class Player {
         this.cash = 0
         this.winAmount = 0
         this.cardHand = []
-        this.cardScores = []
+        // this.cardScores = []
         this.hasAce = 0
         this.compareAmt = 0
     }
@@ -92,7 +110,7 @@ class Player {
 
     addToPlayerHand(deltCard) {
         this.cardHand.push(deltCard)
-        this.cardScores.push(deltCard[0].Worth)
+        // this.cardScores.push(deltCard[0].Worth)
         // this.cardHand.pop(deltCard)
     }
 
@@ -106,7 +124,7 @@ class Dealer {
         this.dealerDeck = []
         this.hasAce = 0
         this.dealerHand = []
-        this.dealerCardScores = []
+        // this.dealerCardScores = []
         this.compareDealerAmt = 0
     }
     createDeckArray() {
@@ -119,10 +137,13 @@ class Dealer {
                 this.dealerDeck.push(card)
             }
         }
+
     }
 
     shuffleDeck() {
-        this.dealerDeck.sort(() => Math.random() - 0.5) //math.random returns a random number compared to -.5 (i.e 50%) to place order
+        this.dealerDeck.sort(() => Math.random() - 0.5) 
+        console.log('HERE');
+        //math.random returns a random number compared to -.5 (i.e 50%) to place order
     }
 
     deal(player1) {
@@ -215,7 +236,7 @@ class Dealer {
 
     addToDealerHand(deltCardForDealer) {
         this.dealerHand.push(deltCardForDealer)
-        this.dealerCardScores.push(deltCardForDealer[0].Worth)
+        // this.dealerCardScores.push(deltCardForDealer[0].Worth)
     }
 
 
@@ -234,8 +255,8 @@ function startGame() {
     cardDealer.dealDealer()
     cardDealer.dealDealerHidden()
     cardDealer.deal(player1)
-    checkBustV2()
-    checkDealerBustV2()
+    // checkBustV2()
+    // checkDealerBustV2()
 }
 
 startGame()
@@ -248,7 +269,6 @@ dealButton.addEventListener('click', () => {
         dealButton.classList.add('gameOff')
         stayButton.classList.add('gameOff')
         hiddenDiv.classList.remove('hidden')
-        player1.endCompare()
         checkWinner()
     }
 }
