@@ -45,16 +45,16 @@ function reset() {
 }
 
 function removePlayerElements() {
-    for(let i = 0; i < cardSelecterPlayer.childNodes.length; i++ ) {
-        cardSelecterPlayer.remove()   
+    for(let i = 0; i < cardSelecterPlayer.children.length; i++ ) {
+        cardSelecterPlayer.children[i].remove()
 
     }
 
 }
 
 function removeDealerElements() {
-    for (let i = 0; i < cardSelecterDealer.childNodes.length; i++) {
-        cardSelecterDealer.remove()
+    for (let i = 0; i < cardSelecterDealer.children.length; i++) {
+        cardSelecterDealer.children[i].remove()
     }
 
 }
