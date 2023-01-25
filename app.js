@@ -16,6 +16,14 @@ hiddenDiv.classList.add('hidden')
 const cardSelecterPlayer = document.querySelector('.playerCards')
 const cardSelecterDealer = document.querySelector('.card-list')
 const grabBanner = document.querySelector('.dealer p')
+const yourMoney = document.querySelector('.cash')
+let counter = document.querySelector('.counter')
+let cardSound = new Audio('cardFlip.mp3')
+cardSound.volume = 0.5
+let dealerCardSound = new Audio('cardDealFlip.mp3')
+dealerCardSound.volume = 0.5
+let cardResetSound = new Audio('cardReset.mp3')
+cardResetSound.volume = 0.3
 let isPlaying = true
 let isDealing = true
 let isOver21 = false
@@ -42,55 +50,54 @@ function reset() {
     stayButton.classList.remove('gameOff')
     grabBanner.innerText = "Hit or Hold"
     hiddenDiv.classList.add('hidden')
+    cardResetSound.play()
     startGame()
 
 }
-
 function removePlayerElements() {
     for (let i = 0; i < cardSelecterPlayer.children.length; i++) {
         while (cardSelecterPlayer.children.length > 0) {
-            cardSelecterPlayer.children[i].remove()
-            
+            cardSelecterPlayer.children[i].remove()   
         }
-
     }
-
 }
-
 function removeDealerElements() {
     for (let i = 0; i < cardSelecterDealer.children.length; i++) {
         while (cardSelecterDealer.children.length > 0) {
-            cardSelecterDealer.children[i].remove()
-            
+            cardSelecterDealer.children[i].remove()           
         }
-
     }
-
 }
-
 function checkWinner() {
     if (isOver21 === true) {
         console.log('Dealer WON');
         grabBanner.innerText = "Dealer Won"
-        cardDealer.winAmount += 1
+        cardDealer.winAmount++
+        counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
-        player1.winAmount += 1
+        player1.winAmount++
         grabBanner.innerText = "Player Won"
+        counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+
     } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
         console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
-        cardDealer.winAmount += 1
+        cardDealer.winAmount++
+        counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
         console.log('player wins by dealer busting');
         grabBanner.innerText = "Player Won"
-        player1.winAmount += 1
+        player1.winAmount++
+        counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+
     } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
         console.log('its a draw');
         grabBanner.innerText = "DRAW"
     }
 }
-
 function checkBustV2() {
     if (player1.compareAmt > 21) {
         console.log(console.log('game over'));
@@ -99,18 +106,17 @@ function checkBustV2() {
         isOver21 = true
     }
 }
-
 function checkDealerBustV2() {
     if (cardDealer.compareDealerAmt > 21) {
         isDealing = false
         console.log(cardDealer.compareDealerAmt);
     }
 }
-
 class Player {
     constructor(name) {
         this.name = name
-        this.cash = 0
+        this.cash = 1000
+        this.cashText = yourMoney.innerHTML = `Your Money: ${this.cash}`
         this.winAmount = 0
         this.cardHand = []
         // this.cardScores = []
@@ -118,6 +124,9 @@ class Player {
         this.compareAmt = 0
     }
     wager() {
+        if(isPlaying) {
+            this.winAmount += wager
+        }
     }
     addToPlayerHand(deltCard) {
         this.cardHand.push(deltCard)
@@ -126,8 +135,6 @@ class Player {
     }
 
 }
-
-
 class Dealer {
     constructor() {
         this.cash = 0
@@ -232,14 +239,12 @@ class Dealer {
         // this.dealerCardScores.push(deltCardForDealer[0].Worth)
     }
 }
-
 const askName = () => {
     let = playerName = prompt("What's your name?")
     return playerName
 }
 const player1 = new Player("Tyler")
 const cardDealer = new Dealer("Dealer")
-
 function startGame() {
     cardDealer.createDeckArray()
     cardDealer.shuffleDeck()
@@ -256,6 +261,7 @@ dealButton.addEventListener('click', () => {
     cardDealer.deal(player1)
     checkDealerBustV2()
     checkBustV2()
+    cardSound.play()
     if (isPlaying === false) {
         dealButton.classList.add('gameOff')
         stayButton.classList.add('gameOff')
@@ -270,9 +276,12 @@ stayButton.addEventListener('click', () => {
     // dealButton.classList.add('gameOff')
     // stayButton.classList.add('gameOff')
     hiddenDiv.classList.remove('hidden')
+    dealButton.classList.add('gameOff')
+    stayButton.classList.add('gameOff')
     while (cardDealer.compareDealerAmt < 17) {
         cardDealer.dealDealer()
     }
+    dealerCardSound.play()
     checkDealerBustV2
     checkWinner()
 })
@@ -280,6 +289,7 @@ stayButton.addEventListener('click', () => {
 
 resetButton.addEventListener('click', () => {
     reset()
+
 })
 
 
