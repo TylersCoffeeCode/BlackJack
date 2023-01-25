@@ -22,6 +22,8 @@ let isOver21 = false
 let checkArr = 0
 let dealerCheckArr = 0
 
+
+
 //Functions
 function reset() {
     removePlayerElements()
@@ -29,24 +31,27 @@ function reset() {
     isOver21 = false
     isPlaying = true
     player1.cardHand = []
-    // player1.cardScores = []
     player1.hasAce = 0
     player1.compareAmt = 0
     cardDealer.compareDealerAmt = 0
     cardDealer.dealerDeck = []
     cardDealer.hasAce = 0
     cardDealer.dealerHand = []
-    // cardDealer.dealerCardScores = []
     cardDealer.compareDealerAmt = 0
     dealButton.classList.remove('gameOff')
     stayButton.classList.remove('gameOff')
+    grabBanner.innerText = "Hit or Hold"
+    hiddenDiv.classList.add('hidden')
     startGame()
 
 }
 
 function removePlayerElements() {
-    for(let i = 0; i < cardSelecterPlayer.children.length; i++ ) {
-        cardSelecterPlayer.children[i].remove()
+    for (let i = 0; i < cardSelecterPlayer.children.length; i++) {
+        while (cardSelecterPlayer.children.length > 0) {
+            cardSelecterPlayer.children[i].remove()
+            
+        }
 
     }
 
@@ -54,7 +59,11 @@ function removePlayerElements() {
 
 function removeDealerElements() {
     for (let i = 0; i < cardSelecterDealer.children.length; i++) {
-        cardSelecterDealer.children[i].remove()
+        while (cardSelecterDealer.children.length > 0) {
+            cardSelecterDealer.children[i].remove()
+            
+        }
+
     }
 
 }
@@ -63,15 +72,19 @@ function checkWinner() {
     if (isOver21 === true) {
         console.log('Dealer WON');
         grabBanner.innerText = "Dealer Won"
+        cardDealer.winAmount += 1
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
+        player1.winAmount += 1
         grabBanner.innerText = "Player Won"
     } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
         console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
+        cardDealer.winAmount += 1
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
         console.log('player wins by dealer busting');
         grabBanner.innerText = "Player Won"
+        player1.winAmount += 1
     } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
         console.log('its a draw');
         grabBanner.innerText = "DRAW"
@@ -105,9 +118,7 @@ class Player {
         this.compareAmt = 0
     }
     wager() {
-
     }
-
     addToPlayerHand(deltCard) {
         this.cardHand.push(deltCard)
         // this.cardScores.push(deltCard[0].Worth)
@@ -137,15 +148,12 @@ class Dealer {
                 this.dealerDeck.push(card)
             }
         }
-
     }
-
     shuffleDeck() {
-        this.dealerDeck.sort(() => Math.random() - 0.5) 
+        this.dealerDeck.sort(() => Math.random() - 0.5)
         console.log('HERE');
         //math.random returns a random number compared to -.5 (i.e 50%) to place order
     }
-
     deal(player1) {
         const randomizer = [Math.floor(Math.random() * this.dealerDeck.length)]
         const randomCard = this.dealerDeck[randomizer]
@@ -153,11 +161,9 @@ class Dealer {
         player1.addToPlayerHand(deltCard)
         // console.log(randomCard);
         player1.compareAmt += deltCard[0].Worth
-
         if (deltCard[0].Values === 'Ace') {
             player1.hasAce++
         }
-
         if (deltCard[0].Worth === 'Ace') {
             if (player1.compareAmt >= 11) {
                 player1.compareAmt += 1
@@ -165,7 +171,6 @@ class Dealer {
                 player1.compareAmt += 11
             }
         }
-
         if (player1.hasAce > 0 && player1.compareAmt > 21) {
             let sub = player1.hasAce * 10;
             player1.compareAmt -= sub
@@ -178,9 +183,7 @@ class Dealer {
             card.innerText = `${deltCard[0].Values} of ${deltCard[0].Suits}`
         }
     }
-
     dealDealer() {
-        
         const randomizerForDealer = [Math.floor(Math.random() * this.dealerDeck.length)]
         const randomCardForDealer = this.dealerDeck[randomizerForDealer]
         const deltCardForDealer = this.dealerDeck.splice(randomizerForDealer, 1)
@@ -190,8 +193,6 @@ class Dealer {
             console.log('HELLO');
             this.hasAce++
         }
-
-
         if (deltCardForDealer[0].Values === 'Ace') {
             if (this.compareDealerAmt >= 11) {
                 deltCardForDealer[0].Worth = 1
@@ -200,24 +201,19 @@ class Dealer {
                 console.log('under eleven');
             }
         }
-
         if (this.hasAce > 0 && this.compareDealerAmt > 21) {
             let sub = this.hasAce * 10;
             this.compareDealerAmt -= sub
             this.hasAce -= this.hasAce
             console.log('Ace subbed');
         }
-
-
         for (let dealerCard of deltCardForDealer) {
             dealerCard = document.createElement('div')
             dealerTable.appendChild(dealerCard)
             dealerCard.classList.add('card')
             dealerCard.innerText = `${deltCardForDealer[0].Values} of ${deltCardForDealer[0].Suits}`
         }
-
     }
-
     dealDealerHidden() {
         const randomizerForDealer = [Math.floor(Math.random() * this.dealerDeck.length)]
         const randomCardForDealer = this.dealerDeck[randomizerForDealer]
@@ -231,15 +227,10 @@ class Dealer {
         dealerTable.appendChild(hiddenDiv)
         hiddenDiv.innerText = `${deltCardForDealer[0].Values} of ${deltCardForDealer[0].Suits}`
     }
-
-
-
     addToDealerHand(deltCardForDealer) {
         this.dealerHand.push(deltCardForDealer)
         // this.dealerCardScores.push(deltCardForDealer[0].Worth)
     }
-
-
 }
 
 const askName = () => {
@@ -276,8 +267,8 @@ dealButton.addEventListener('click', () => {
 
 stayButton.addEventListener('click', () => {
     isPlaying = false
-    dealButton.classList.add('gameOff')
-    stayButton.classList.add('gameOff')
+    // dealButton.classList.add('gameOff')
+    // stayButton.classList.add('gameOff')
     hiddenDiv.classList.remove('hidden')
     while (cardDealer.compareDealerAmt < 17) {
         cardDealer.dealDealer()
