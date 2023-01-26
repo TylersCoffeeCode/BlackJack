@@ -1,4 +1,4 @@
-// Global
+//***************GLOBAL***********************//
 const houseMoney = 0;
 const playerMoney = 0;
 let wager = 50;
@@ -32,11 +32,10 @@ let isDealing = true
 let isOver21 = false
 let checkArr = 0
 let dealerCheckArr = 0
+let pScore = document.querySelector('.pScore')
+let dScore = document.querySelector('.dScore')
+//***************FUNCTIONS***********************//
 
-// wagerDownBtn.classList.add('gameOff')
-// wagerUpBtn.classList.add('gameOff')
-
-//Functions
 function reset() {
     removePlayerElements()
     removeDealerElements()
@@ -55,7 +54,7 @@ function reset() {
     grabBanner.innerText = "Hit or Hold"
     hiddenDiv.classList.add('hidden')
     cardResetSound.play()
-    wagerText.innerText = `Wager: ${wager -= wager}`
+    wagerText.innerText = `Wager: ${wager = 50}`
     wagerDownBtn.classList.remove('gameOff')
     wagerUpBtn.classList.remove('gameOff')
     startGame()
@@ -64,14 +63,14 @@ function reset() {
 function removePlayerElements() {
     for (let i = 0; i < cardSelecterPlayer.children.length; i++) {
         while (cardSelecterPlayer.children.length > 0) {
-            cardSelecterPlayer.children[i].remove()   
+            cardSelecterPlayer.children[i].remove()
         }
     }
 }
 function removeDealerElements() {
     for (let i = 0; i < cardSelecterDealer.children.length; i++) {
         while (cardSelecterDealer.children.length > 0) {
-            cardSelecterDealer.children[i].remove()           
+            cardSelecterDealer.children[i].remove()
         }
     }
 }
@@ -81,31 +80,25 @@ function checkWinner() {
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
-        yourMoney.innerHTML =`Your Money: ${player1.cash -= wager}`
-
+        yourMoney.innerHTML = `Your Money: ${player1.cash -= wager}`
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
         player1.winAmount++
         grabBanner.innerText = "Player Won"
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
-        yourMoney.innerHTML =`Your Money: ${player1.cash += (wager * 1.5)}`
-
+        yourMoney.innerHTML = `Your Money: ${player1.cash += (wager * 1.5)}`
     } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
         console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
-        yourMoney.innerHTML =`Your Money: ${player1.cash -= wager}`
-
-
+        yourMoney.innerHTML = `Your Money: ${player1.cash -= wager}`
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
         console.log('player wins by dealer busting');
         grabBanner.innerText = "Player Won"
         player1.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
-        yourMoney.innerHTML =`Your Money: ${player1.cash += (wager * 1.5)}`
-
-
+        yourMoney.innerHTML = `Your Money: ${player1.cash += (wager * 1.5)}`
     } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
         console.log('its a draw');
         grabBanner.innerText = "DRAW"
@@ -126,20 +119,24 @@ function checkDealerBustV2() {
     }
 }
 function increaseWager() {
-    if(wager >= player1.cash) {
+    if (wager >= player1.cash) {
         wagerUpBtn.setAttribute("disabled", "disabled");
     } else wager += 50
     wagerText.innerText = `Wager: ${wager}`
     wagerDownBtn.removeAttribute("disabled", "disabled")
-    
+
 }
 function decreaseWager() {
-    if(wager <= 50) {
+    if (wager <= 50) {
         wagerDownBtn.setAttribute("disabled", "disabled");
     } else wager -= 50
     wagerText.innerText = `Wager: ${wager}`
     wagerUpBtn.removeAttribute("disabled", "disabled")
 }
+
+//***************Player Class***********************//
+
+
 class Player {
     constructor(name) {
         this.name = name
@@ -152,7 +149,7 @@ class Player {
         this.compareAmt = 0
     }
     wager() {
-        if(isPlaying) {
+        if (isPlaying) {
             this.winAmount += wager
         }
     }
@@ -163,6 +160,10 @@ class Player {
     }
 
 }
+
+//***************Dealer Class***********************//
+
+
 class Dealer {
     constructor() {
         this.cash = 0
@@ -267,23 +268,24 @@ class Dealer {
         // this.dealerCardScores.push(deltCardForDealer[0].Worth)
     }
 }
-const askName = () => {
-    let = playerName = prompt("What's your name?")
-    return playerName
-}
+
+//***************Constructing Classes***********************//
+
 const player1 = new Player("Tyler")
 const cardDealer = new Dealer("Dealer")
+
+//***************START GAME***********************//
 function startGame() {
     cardDealer.createDeckArray()
     cardDealer.shuffleDeck()
     cardDealer.dealDealer()
     cardDealer.dealDealerHidden()
     cardDealer.deal(player1)
-    // checkBustV2()
-    // checkDealerBustV2()
 }
-
 startGame()
+
+
+//***************Event Listeners***********************//
 
 dealButton.addEventListener('click', () => {
     cardDealer.deal(player1)
@@ -292,6 +294,7 @@ dealButton.addEventListener('click', () => {
     cardSound.play()
     wagerDownBtn.classList.add('gameOff')
     wagerUpBtn.classList.add('gameOff')
+    pScore.innerText = `Player's Hand: ${player1.compareAmt}`
     if (isPlaying === false) {
         dealButton.classList.add('gameOff')
         stayButton.classList.add('gameOff')
@@ -300,7 +303,6 @@ dealButton.addEventListener('click', () => {
     }
 }
 )
-
 stayButton.addEventListener('click', () => {
     isPlaying = false
     hiddenDiv.classList.remove('hidden')
@@ -313,15 +315,7 @@ stayButton.addEventListener('click', () => {
     checkDealerBustV2
     checkWinner()
 })
-
-
 resetButton.addEventListener('click', () => {
     reset()
 
 })
-
-
-
-
-
-
