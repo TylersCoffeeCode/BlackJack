@@ -9,6 +9,7 @@
     <title>Black♠️Jack</title>
 </head>
 <body>
+<div class="gameBoard">
     <div class="title">
         <h1>Black♠️Jack</h1>
     </div>
@@ -20,11 +21,17 @@
         <div class="card-list">
         </div>
         <div class="lower">
+        <div>
             <h3 class="counter">Win:</br> Loss:</br></h3>
             <h3 class="cash"></br>Your Money:</h3>
+        </div>
+            <div class="wagerCtn">
+            <h3 class="wager">Wager:</h3>
+            <button class="up" onclick="increaseWager()">+</button>
+            <button class="down" onclick="decreaseWager()">-</button>
             <h3 class="earnings"></h3>
-            <button>+</button>
-            <button>-</button>
+            </div>
+
             <h2 class="playerName">Player</h2>
             <div class="playerCards">
             </div>
@@ -38,5 +45,6 @@
             <button class="resetBtn">RESET</button>
         </div>
     </div>
+</div>
 </body>
 </html>

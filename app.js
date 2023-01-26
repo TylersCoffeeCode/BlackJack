@@ -1,7 +1,7 @@
 // Global
 const houseMoney = 0;
 const playerMoney = 0;
-const wager = 0;
+let wager = 0;
 const dealButton = document.querySelector('.dealBtn')
 const stayButton = document.querySelector('.stayBtn')
 const resetButton = document.querySelector('.resetBtn')
@@ -15,8 +15,11 @@ hiddenDiv.classList.add('card')
 hiddenDiv.classList.add('hidden')
 const cardSelecterPlayer = document.querySelector('.playerCards')
 const cardSelecterDealer = document.querySelector('.card-list')
+const wagerUpBtn = document.querySelector('up')
+const wagerDownBtn = document.querySelector('down')
 const grabBanner = document.querySelector('.dealer p')
 const yourMoney = document.querySelector('.cash')
+const wagerText = document.querySelector('.wager')
 let counter = document.querySelector('.counter')
 let cardSound = new Audio('cardFlip.mp3')
 cardSound.volume = 0.5
@@ -74,24 +77,30 @@ function checkWinner() {
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+        yourMoney.innerHTML =`Your Money: ${player1.cash -= wager}`
 
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
         player1.winAmount++
         grabBanner.innerText = "Player Won"
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+        yourMoney.innerHTML =`Your Money: ${player1.cash += (wager * 1.5)}`
 
     } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
         console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+        yourMoney.innerHTML =`Your Money: ${player1.cash -= wager}`
+
 
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
         console.log('player wins by dealer busting');
         grabBanner.innerText = "Player Won"
         player1.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
+        yourMoney.innerHTML =`Your Money: ${player1.cash += (wager * 1.5)}`
+
 
     } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
         console.log('its a draw');
@@ -111,6 +120,19 @@ function checkDealerBustV2() {
         isDealing = false
         console.log(cardDealer.compareDealerAmt);
     }
+}
+function increaseWager() {
+    if(wager >= player1.cash) {
+        wagerUpBtn.setAttribute("disabled", "disabled");
+    } else wager += 100
+    wagerText.innerText = `Wager: ${wager}`
+    
+}
+function decreaseWager() {
+    if(wager === 0) {
+        wagerDownBtn.setAttribute("disabled", "disabled");
+    } else wager -= 100
+    wagerText.innerText = `Wager: ${wager}`
 }
 class Player {
     constructor(name) {
