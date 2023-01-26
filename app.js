@@ -15,8 +15,8 @@ hiddenDiv.classList.add('card')
 hiddenDiv.classList.add('hidden')
 const cardSelecterPlayer = document.querySelector('.playerCards')
 const cardSelecterDealer = document.querySelector('.card-list')
-const wagerUpBtn = document.querySelector('up')
-const wagerDownBtn = document.querySelector('down')
+const wagerUpBtn = document.querySelector('.up')
+const wagerDownBtn = document.querySelector('.down')
 const grabBanner = document.querySelector('.dealer p')
 const yourMoney = document.querySelector('.cash')
 const wagerText = document.querySelector('.wager')
@@ -33,7 +33,8 @@ let isOver21 = false
 let checkArr = 0
 let dealerCheckArr = 0
 
-
+// wagerDownBtn.classList.add('gameOff')
+// wagerUpBtn.classList.add('gameOff')
 
 //Functions
 function reset() {
@@ -54,6 +55,9 @@ function reset() {
     grabBanner.innerText = "Hit or Hold"
     hiddenDiv.classList.add('hidden')
     cardResetSound.play()
+    wagerText.innerText = `Wager: ${wager -= wager}`
+    wagerDownBtn.classList.remove('gameOff')
+    wagerUpBtn.classList.remove('gameOff')
     startGame()
 
 }
@@ -124,14 +128,15 @@ function checkDealerBustV2() {
 function increaseWager() {
     if(wager >= player1.cash) {
         wagerUpBtn.setAttribute("disabled", "disabled");
-    } else wager += 100
+    } else wager += 50
     wagerText.innerText = `Wager: ${wager}`
+    wagerDownBtn.removeAttribute("disabled", "disabled")
     
 }
 function decreaseWager() {
-    if(wager === 0) {
+    if(wager <= 0) {
         wagerDownBtn.setAttribute("disabled", "disabled");
-    } else wager -= 100
+    } else wager -= 50
     wagerText.innerText = `Wager: ${wager}`
 }
 class Player {
@@ -284,6 +289,8 @@ dealButton.addEventListener('click', () => {
     checkDealerBustV2()
     checkBustV2()
     cardSound.play()
+    wagerDownBtn.classList.add('gameOff')
+    wagerUpBtn.classList.add('gameOff')
     if (isPlaying === false) {
         dealButton.classList.add('gameOff')
         stayButton.classList.add('gameOff')
@@ -295,8 +302,6 @@ dealButton.addEventListener('click', () => {
 
 stayButton.addEventListener('click', () => {
     isPlaying = false
-    // dealButton.classList.add('gameOff')
-    // stayButton.classList.add('gameOff')
     hiddenDiv.classList.remove('hidden')
     dealButton.classList.add('gameOff')
     stayButton.classList.add('gameOff')

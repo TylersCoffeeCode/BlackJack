@@ -159,9 +159,7 @@ body {
 }
 
 
-.gameOff {
-    display: none;
-}
+
 
 .cash {
     margin-top: 80px;
@@ -250,4 +248,8 @@ h2.playerName {
 
 .wagerBlock {
     cursor: not-allowed;
+}
+
+.gameOff {
+    display: none;
 }
