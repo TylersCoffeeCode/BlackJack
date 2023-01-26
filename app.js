@@ -1,7 +1,7 @@
 // Global
 const houseMoney = 0;
 const playerMoney = 0;
-let wager = 0;
+let wager = 50;
 const dealButton = document.querySelector('.dealBtn')
 const stayButton = document.querySelector('.stayBtn')
 const resetButton = document.querySelector('.resetBtn')
@@ -134,10 +134,11 @@ function increaseWager() {
     
 }
 function decreaseWager() {
-    if(wager <= 0) {
+    if(wager <= 50) {
         wagerDownBtn.setAttribute("disabled", "disabled");
     } else wager -= 50
     wagerText.innerText = `Wager: ${wager}`
+    wagerUpBtn.removeAttribute("disabled", "disabled")
 }
 class Player {
     constructor(name) {
