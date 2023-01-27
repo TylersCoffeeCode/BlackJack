@@ -13,12 +13,9 @@
   - Utilize flexbox/grid
   - Contain at least 2 event handlers, 20 git commits, and code should be properly indented with no unused/logged code
 
-
-
 # Game Preview
 ![titlePage](./titlePage.png)
 ![gamePreview](./gameImg.png)
-
 
 # Instructions
 Press "Press Here" to begin 
@@ -27,8 +24,6 @@ Press "Press Here" to begin
 <br>Then let the luck of the cards help or hinder you
 <br>Wager more cash if you're feeling lucky
 <br>Press Reset after game is over to get a new set of cards
-
-
 
 ### Resources
 SFX provided by Epidemic Sounds
