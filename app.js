@@ -193,7 +193,6 @@ class Dealer {
     }
     shuffleDeck() {
         this.dealerDeck.sort(() => Math.random() - 0.5)
-        console.log('HERE');
         //math.random returns a random number compared to -.5 (i.e 50%) to place order
     }
     deal(player1) {
