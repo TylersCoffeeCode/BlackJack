@@ -12,6 +12,12 @@
   - Contain at least 2 event handlers, 20 git commits, and code should be properly indented with no unused/logged code
 
 
+
+# Game Preview
+![titlePage](./titlePage.png)
+![gamePreview](./gameImg.png)
+
+
 # Instructions
 Press "Press Here" to begin 
 <br>Press "Hit" to try and get as close to 21 without going over
