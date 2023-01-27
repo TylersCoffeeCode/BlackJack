@@ -57,6 +57,8 @@ function reset() {
     wagerText.innerText = `Wager: ${wager = 50}`
     wagerDownBtn.classList.remove('gameOff')
     wagerUpBtn.classList.remove('gameOff')
+    pScore.innerText = `Player's Hand: ${0}`
+    dScore.innerText = `Dealer's Hand: ${0}`
     startGame()
 
 }
@@ -81,27 +83,33 @@ function checkWinner() {
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash -= wager}`
+        dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
+        pScore.innerText = `Player's Hand: BUST`
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
         console.log('Player WON');
         player1.winAmount++
         grabBanner.innerText = "Player Won"
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash += (wager * 1.5)}`
+        dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
         console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash -= wager}`
+        dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
         console.log('player wins by dealer busting');
         grabBanner.innerText = "Player Won"
         player1.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash += (wager * 1.5)}`
+        dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
         console.log('its a draw');
         grabBanner.innerText = "DRAW"
+        dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     }
 }
 function checkBustV2() {
@@ -260,6 +268,12 @@ class Dealer {
         if (deltCardForDealer[0].Values === 'Ace') {
             this.hasAce++
         }
+        if (this.hasAce > 0 && this.compareDealerAmt > 21) {
+            // let sub = this.hasAce * 10;
+            this.compareDealerAmt -= 10
+            // this.hasAce -= this.hasAce
+            console.log('Ace subbed');
+        }
         dealerTable.appendChild(hiddenDiv)
         hiddenDiv.innerText = `${deltCardForDealer[0].Values} of ${deltCardForDealer[0].Suits}`
     }
@@ -311,6 +325,7 @@ stayButton.addEventListener('click', () => {
     while (cardDealer.compareDealerAmt < 17) {
         cardDealer.dealDealer()
     }
+    dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     dealerCardSound.play()
     checkDealerBustV2
     checkWinner()
