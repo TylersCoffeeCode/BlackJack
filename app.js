@@ -34,6 +34,7 @@ let checkArr = 0
 let dealerCheckArr = 0
 let pScore = document.querySelector('.pScore')
 let dScore = document.querySelector('.dScore')
+
 //***************FUNCTIONS***********************//
 
 function reset() {
@@ -60,8 +61,8 @@ function reset() {
     pScore.innerText = `Player's Hand: ${0}`
     dScore.innerText = `Dealer's Hand: ${0}`
     startGame()
-
 }
+
 function removePlayerElements() {
     for (let i = 0; i < cardSelecterPlayer.children.length; i++) {
         while (cardSelecterPlayer.children.length > 0) {
@@ -69,6 +70,7 @@ function removePlayerElements() {
         }
     }
 }
+
 function removeDealerElements() {
     for (let i = 0; i < cardSelecterDealer.children.length; i++) {
         while (cardSelecterDealer.children.length > 0) {
@@ -76,6 +78,7 @@ function removeDealerElements() {
         }
     }
 }
+
 function checkWinner() {
     if (isOver21 === true) {
         grabBanner.innerText = "Dealer Won"
@@ -107,17 +110,20 @@ function checkWinner() {
         dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     }
 }
+
 function checkBustV2() {
     if (player1.compareAmt > 21) {
         isPlaying = false
         isOver21 = true
     }
 }
+
 function checkDealerBustV2() {
     if (cardDealer.compareDealerAmt > 21) {
         isDealing = false
     }
 }
+
 function increaseWager() {
     if (wager >= player1.cash) {
         wagerUpBtn.setAttribute("disabled", "disabled");
@@ -126,6 +132,7 @@ function increaseWager() {
     wagerDownBtn.removeAttribute("disabled", "disabled")
 
 }
+
 function decreaseWager() {
     if (wager <= 50) {
         wagerDownBtn.setAttribute("disabled", "disabled");
@@ -296,8 +303,7 @@ dealButton.addEventListener('click', () => {
         hiddenDiv.classList.remove('hidden')
         checkWinner()
     }
-}
-)
+})
 stayButton.addEventListener('click', () => {
     isPlaying = false
     hiddenDiv.classList.remove('hidden')
