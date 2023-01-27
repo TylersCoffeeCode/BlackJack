@@ -78,7 +78,6 @@ function removeDealerElements() {
 }
 function checkWinner() {
     if (isOver21 === true) {
-        console.log('Dealer WON');
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
@@ -86,36 +85,30 @@ function checkWinner() {
         dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
         pScore.innerText = `Player's Hand: BUST`
     } else if (isDealing === true && player1.compareAmt > cardDealer.compareDealerAmt) {
-        console.log('Player WON');
         player1.winAmount++
         grabBanner.innerText = "Player Won"
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash += (wager * 1.5)}`
         dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     } else if (cardDealer.compareDealerAmt <= 21 && player1.compareAmt < cardDealer.compareDealerAmt) {
-        console.log('Dealer WIN by cards');
         grabBanner.innerText = "Dealer Won"
         cardDealer.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash -= wager}`
         dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     } else if (cardDealer.compareDealerAmt > 21 && isOver21 === false) {
-        console.log('player wins by dealer busting');
         grabBanner.innerText = "Player Won"
         player1.winAmount++
         counter.innerText = `Win: ${player1.winAmount} \n Loss: ${cardDealer.winAmount}`
         yourMoney.innerHTML = `Your Money: ${player1.cash += (wager * 1.5)}`
         dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     } else if (cardDealer.compareDealerAmt === player1.compareAmt) {
-        console.log('its a draw');
         grabBanner.innerText = "DRAW"
         dScore.innerText = `Dealer's Hand: ${cardDealer.compareDealerAmt}`
     }
 }
 function checkBustV2() {
     if (player1.compareAmt > 21) {
-        console.log(console.log('game over'));
-        console.log(player1.compareAmt);
         isPlaying = false
         isOver21 = true
     }
@@ -123,7 +116,6 @@ function checkBustV2() {
 function checkDealerBustV2() {
     if (cardDealer.compareDealerAmt > 21) {
         isDealing = false
-        console.log(cardDealer.compareDealerAmt);
     }
 }
 function increaseWager() {
@@ -179,7 +171,6 @@ class Dealer {
         this.dealerDeck = []
         this.hasAce = 0
         this.dealerHand = []
-        // this.dealerCardScores = []
         this.compareDealerAmt = 0
     }
     createDeckArray() {
@@ -200,10 +191,8 @@ class Dealer {
     }
     deal(player1) {
         const randomizer = [Math.floor(Math.random() * this.dealerDeck.length)]
-        const randomCard = this.dealerDeck[randomizer]
         const deltCard = this.dealerDeck.splice(randomizer, 1)
         player1.addToPlayerHand(deltCard)
-        // console.log(randomCard);
         player1.compareAmt += deltCard[0].Worth
         if (deltCard[0].Values === 'Ace') {
             player1.hasAce++
@@ -234,7 +223,6 @@ class Dealer {
         cardDealer.addToDealerHand(deltCardForDealer)
         this.compareDealerAmt += deltCardForDealer[0].Worth
         if (deltCardForDealer[0].Worth == 11) {
-            console.log('HELLO');
             this.hasAce++
         }
         if (deltCardForDealer[0].Values === 'Ace') {
@@ -242,14 +230,12 @@ class Dealer {
                 deltCardForDealer[0].Worth = 1
             } else {
                 this.compareDealerAmt += 11
-                console.log('under eleven');
             }
         }
         if (this.hasAce > 0 && this.compareDealerAmt > 21) {
             let sub = this.hasAce * 10;
             this.compareDealerAmt -= sub
             this.hasAce -= this.hasAce
-            console.log('Ace subbed');
         }
         for (let dealerCard of deltCardForDealer) {
             dealerCard = document.createElement('div')
@@ -263,23 +249,18 @@ class Dealer {
         const randomCardForDealer = this.dealerDeck[randomizerForDealer]
         const deltCardForDealer = this.dealerDeck.splice(randomizerForDealer, 1)
         cardDealer.addToDealerHand(deltCardForDealer)
-        console.log(randomCardForDealer);
         this.compareDealerAmt += deltCardForDealer[0].Worth
         if (deltCardForDealer[0].Values === 'Ace') {
             this.hasAce++
         }
         if (this.hasAce > 0 && this.compareDealerAmt > 21) {
-            // let sub = this.hasAce * 10;
             this.compareDealerAmt -= 10
-            // this.hasAce -= this.hasAce
-            console.log('Ace subbed');
         }
         dealerTable.appendChild(hiddenDiv)
         hiddenDiv.innerText = `${deltCardForDealer[0].Values} of ${deltCardForDealer[0].Suits}`
     }
     addToDealerHand(deltCardForDealer) {
         this.dealerHand.push(deltCardForDealer)
-        // this.dealerCardScores.push(deltCardForDealer[0].Worth)
     }
 }
 
