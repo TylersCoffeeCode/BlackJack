@@ -6,6 +6,7 @@
 ### By: Tyler Coats
 - [LinkedIn](www.linkedin.com/in/tylerccoats)
 - [GitHub](https://github.com/TylersCoffeeCode)
+- [Trello Board](https://trello.com/b/MoHw6lZN/project-1-blackjack)
 
 ## Objectives
   - Create a website application using html, css, and javascript to run BlackJack
