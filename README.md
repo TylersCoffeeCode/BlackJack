@@ -1,5 +1,5 @@
 # Black Jack
-
+## [To play press here](https://blackjacktcc.surge.sh/)
 ### Date : Jan 20, 2022
 
 
